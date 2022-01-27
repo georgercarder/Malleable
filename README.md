@@ -11,7 +11,11 @@ let signature = await accounts[0].signMessage(message);
 let split = await ethers.utils.splitSignature(signature);
 
 // reflect signature start
-split.v = 28;
+if (split.v==27) {
+  split.v = 28;
+} else {
+  split.v = 27;
+}
 let C = '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141';
 let newS = await ethers.utils.hexlify(bn(C).sub(bn(split.s)));
 split.s = newS;
