@@ -1,15 +1,19 @@
-# Basic Sample Hardhat Project
+### Malleable
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+Simple demo of replaying a "reflected" signature.
 
-Try running some of the following tasks:
+Construction of a reflected signature may be useful for auditors etc
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+```
+
+let signature = await accounts[0].signMessage(message);
+
+let split = await ethers.utils.splitSignature(signature);
+
+// reflect signature start
+split.v = 28;
+let C = '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141';
+let newS = await ethers.utils.hexlify(bn(C).sub(bn(split.s)));
+split.s = newS;
+// reflect signature end
 ```
