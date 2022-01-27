@@ -11,7 +11,7 @@ let signature = await accounts[0].signMessage(message);
 let split = await ethers.utils.splitSignature(signature);
 
 // reflect signature start
-if (split.v==27) {
+if (split.v==27 || split.v==0) {
   split.v = 28;
 } else {
   split.v = 27;
